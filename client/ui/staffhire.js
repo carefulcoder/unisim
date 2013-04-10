@@ -41,7 +41,7 @@ exports.StaffHire = function(game) {
 
     /**
      * Refreshes the coursesLabel.
-     * @this referenced.
+     * @this {StaffHire}.
      */
     this.refresh = function() {
         courseName = 'Nothing';
@@ -116,9 +116,13 @@ exports.StaffHire = function(game) {
 
     this.addElement('biolabel', bioLabel, 10, 170);
 
+    var closeButton = new basicElements.CloseButton(10, 10, 'X');
+    this.addElement('closebutton', closeButton, -15, 5);
+
     /**
      * Display a bio received from the server.
      * @param {String} bio - the text to display.
+     * @this {StaffHire}.
      */
     this.displayBio = function(bio) {
 

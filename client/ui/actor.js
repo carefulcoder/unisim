@@ -22,7 +22,7 @@ var basicElements = require('../lib/UiElements.js');
 /**
  * A small UI to display and details about an actor.
  * @param {Object} game - reference to game objects.
- * @param {Object} actor - actor's information
+ * @param {Object} actor - actor's information.
  * @constructor
  */
 exports.ActorUI = function(game, actor) {
@@ -31,10 +31,10 @@ exports.ActorUI = function(game, actor) {
     var labelTiredActor;
     var labelHungerActor;
     var labelDegreeActor;
-    
+
     /**
      * Update elements and redraw self.
-     * @this referenced.
+     * @this {ActorUI}.
      */
     this.redrawSelf = function() {
         labelHappyActor.setText(actor.getAttribute('happiness') / 10);
@@ -49,11 +49,11 @@ exports.ActorUI = function(game, actor) {
         var titleString = actor.getCourse();
 
         if (actor.getType() == 'student') {
-            titleString += ' Student'     
+            titleString += ' Student';
         } else {
-            titleString += ' Staff' 
+            titleString += ' Staff';
         }
-        
+
 
         // Call parent constructor
         basicElements.Menu.call(this, 120, 130, titleString);

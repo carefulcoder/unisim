@@ -22,14 +22,19 @@ along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 /**
  * Input handler
  * @param {object} canvas The canvas.
- * @param {object} container The root UI container.
+ * @param {object} cont The UI container to provide input for.
  * @param {object} router for client.
  * @constructor
  */
-exports.Input = function(canvas, container, router) {
+exports.Input = function(canvas, cont, router) {
+
+    //Should this input class be enabled?
+    var enabled = true;
 
     //the element with key focus
     var focusedElement = null;
+
+    var container = cont;
 
     //handle adding mouse events. These are the 'normal' events
     //whereby we recurse down through the tree to run a callback.
@@ -37,7 +42,6 @@ exports.Input = function(canvas, container, router) {
     //key events through a seperate system, done below.
     var events = ['mousemove', 'mousedown', 'mouseup'];
     var eventHandler = function(e) {
-
         //FF compatibility
         var mouseX, mouseY;
         if (e.offsetX) {
@@ -71,10 +75,9 @@ exports.Input = function(canvas, container, router) {
     /**
      * Generic key handler, in which we route key events
      * to the currently focused UI element.
-     * @param event
+     * @param {object} event a key press event.
      */
     var keyHandler = function(event) {
-
         //send the event off to our UI element.
         if (focusedElement && focusedElement.isVisible()) {
             var keyCode = event.charCode ? event.charCode : event.keyCode;
@@ -97,7 +100,7 @@ exports.Input = function(canvas, container, router) {
             keyHandler(event);
 
             //stop the propogation of the event (e.g. backspace goes back on FF, chrome)
-            if (navigator.userAgent.toLowerCase().indexOf("msie") == -1) {
+            if (navigator.userAgent.toLowerCase().indexOf('msie') == -1) {
                 event.stopPropagation();
             } else {
                 event.returnValue = false;
@@ -108,7 +111,7 @@ exports.Input = function(canvas, container, router) {
         }
     };
 
-    document.getElementsByTagName("body")[0].onkeypress = keyHandler;
+    document.getElementsByTagName('body')[0].onkeypress = keyHandler;
     document.getElementsByTagName('body')[0].onkeyup = keyDownKeyUpHandler;
     document.getElementsByTagName('body')[0].onkeydown = function(event) {
         var ret = keyDownKeyUpHandler(event);
@@ -116,5 +119,13 @@ exports.Input = function(canvas, container, router) {
             keyHandler({type: 'keypress', keyCode: event.keyCode}); //...so we need to fake a keypress so text elements can respond to backspace, space & arrows
         }
         return ret;
+    };
+
+    /**
+     * Sets the container element this is doing input for.
+     * @param {object} cont The game container to do input for.
+     */
+    this.setContainer = function(cont) {
+        container = cont;
     };
 };

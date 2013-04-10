@@ -60,14 +60,12 @@ exports.Server = function(http) {
 
     //nested verb -> res
     var callbacks = {};
-
     /**
      * Route our message
      * @param {Object} message  {res, verb, msg} - The message to route.
      * @param {Object} socket an object for the server method to reply to.
      */
     var route = function(message, socket) {
-
         //decode our message, route it
         var msg = Encoder.decode(message);
         if (msg.res && callbacks[msg.verb] && callbacks[msg.verb][msg.res]) {
@@ -122,7 +120,6 @@ exports.Server = function(http) {
     //fire our connect callback
     io.sockets.on('connection', function(socket) {
         route({res: null, verb: 'connect', msg: {}}, socket);
-
         //general message callback
         socket.on('message', function(message) {
             //we pass the address in the message because for some reason once the socket reaches the connections class, the address has been removed

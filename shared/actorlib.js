@@ -17,6 +17,16 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * New format actor lib.
+ * @param {number} nx The actor X position.
+ * @param {number} ny The actor Y position.
+ * @param {string} type The actor type.
+ * @param {string} ncourse The actor's course that they study.
+ * @param {number} accomX The x coord of the actor's accomodation.
+ * @param {number} accomY The y coord of the actor's accomodation.
+ * @constructor
+ */
 exports.Actor = function(nx, ny, type, ncourse, accomX, accomY) {
 
     if (typeof nx != 'number' || typeof ny != 'number') {
@@ -364,7 +374,7 @@ exports.Actors = function() {
     var lastRemoved;    // Array id of last actor removed, not ref
     var cb = require('./callback.js');
     var callbacks = new cb.CallbackManager();
-    var actorCap = 2;
+    var actorCap = 10;
 
     /**
      * Add an actor
@@ -372,6 +382,8 @@ exports.Actors = function() {
      * @param {Number} x The actor X co-ordinate.
      * @param {Number} y The actor Y co-ordinate.
      * @param {String} course The actor's course that they study.
+     * @param {number} accomX The x coord of the actor's accomodation.
+     * @param {number} accomY The y coord of the actor's accomodation.
      * @return {Number} The actor's ID.
      */
     this.addActor = function(type, x, y, course, accomX, accomY) {
@@ -385,7 +397,7 @@ exports.Actors = function() {
     /**
      * Parse from JSON
      * @param {object} json a JSON object.
-     * @this is used.
+     * @this {Actors}.
      */
     this.fromJson = function(json) {
         if (json.actors) {
@@ -398,15 +410,15 @@ exports.Actors = function() {
                 this.getActor(actor).setPath(json.actors[i].path);
             }
         }
-        if (json.actorCap) {
-            actorCap = json.actorCap;
+        if (json.cap) {
+            actorCap = json.cap;
         }
     };
 
     /**
      * Serialize to JSON
      * @return {object} A JSONable object (only attributes).
-     * @this is used.
+     * @this {Actors}.
      */
     this.toJson = function() {
         var json = [];
@@ -420,7 +432,7 @@ exports.Actors = function() {
     /**
      * Serialize to JSON
      * @return {object} A JSONable object (only attributes).
-     * @this is used.
+     * @this {Actors}.
      */
     this.toJsonDebug = function() {
         var json = [];
@@ -437,7 +449,7 @@ exports.Actors = function() {
     /**
      * Serialize to JSON
      * @return {object} A JSONable object (only attributes).
-     * @this is used.
+     * @this {Actors}.
      */
     this.lastActortoJson = function() {
         actor = actors[actors.length - 1];
@@ -450,7 +462,7 @@ exports.Actors = function() {
     /**
      * Serialize from JSON
      * @param {object} json a JSON actor object.
-     * @this is used.
+     * @this {Actors}.
      */
     this.addFromJson = function(json) {
         var actor = this.addActor(json.actor.type, json.actor.x, json.actor.y, json.actor.course, json.actor.accomX, json.actor.accomY);
@@ -535,7 +547,7 @@ exports.Actors = function() {
      * @param {object} tl Top left co-ordinate pair.
      * @param {object} br Bottom right co-ordinate pair.
      * @return {boolean} Whether there is an actor within this region.
-     * @this Actor
+     * @this {Actors}.
      */
     this.hasActorsInRegion = function(tl, br) {
         var hasActor = false;

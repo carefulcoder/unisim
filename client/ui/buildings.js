@@ -35,7 +35,7 @@ exports.Buildings = function() {
     /**
      * Add a blueprint
      * @param {Array} items The blueprints.
-     * @this JENKINS.
+     * @this {Buildings}.
      */
     this.setBlueprints = function(items) {
         items.unshift('Edit');

@@ -17,6 +17,14 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * This module provides a standard template for UI elements
+ * @param {number} width The  width.
+ * @param {number} height The height.
+ * @param {number} layer The layer.
+ * @param {function=} func Callback.
+ * @constructor
+ */
 exports.UiElement = function(width, height, layer, func) {
     'use strict';
 
@@ -121,7 +129,7 @@ exports.UiElement = function(width, height, layer, func) {
     /**
      * Set whether we're visible.
      * @param {boolean} isVisible Should we be visible?
-     * @this {UiElement}
+     * @this {UiElement}.
      */
     this.setVisible = function(isVisible) {
         visible = isVisible;
@@ -139,7 +147,7 @@ exports.UiElement = function(width, height, layer, func) {
     /**
      * Are we visible?
      * @return {Boolean} Are we visible?
-     * @this {UiElement}
+     * @this {UiElement}.
      */
     this.isVisible = function() {
         return visible;
@@ -151,7 +159,7 @@ exports.UiElement = function(width, height, layer, func) {
     /**
      * Set whether we're focused.
      * @param {boolean} isFocused Are we focused?
-     * @this {UiElement}
+     * @this {UiElement}.
      */
     this.setFocused = function(isFocused) {
         focused = isFocused;
@@ -166,12 +174,49 @@ exports.UiElement = function(width, height, layer, func) {
         return focused;
     };
 
+    var hideParent = false;
+
+    /**
+     * Set whether to hide
+     * @param {boolean} isHide Value to set.
+
+     */
+    this.setHideParent = function(isHide) {
+        hideParent = isHide;
+    };
+
+    /**
+     * Are we focused?
+     * @return {Boolean} Whether we're focused.
+     */
+    this.getHideParent = function() {
+        return hideParent;
+    };
+
+    /**
+     * Check for any immediate children that want the parent to be hidden
+     * @this {UiElement}.
+     */
+    this.checkHideParent = function() {
+        // update children recursively
+        for (var key in children) {
+            if (children.hasOwnProperty(key)) {
+                if (children[key].elem.getHideParent()) {
+                    this.setVisible(false);
+                    children[key].elem.setHideParent(false);
+                }
+            }
+        }
+    };
+
     //child elements
     var children = {};
 
     /**
      * Get the absolute (px) position of a child UI element.
      * @param {string} child the child element to get position of.
+     * @return {object} absolute x and y coordinates of child element.
+     * @this {UiElement}.
      */
     this.getAbsoluteChildPosition = function(child) {
         var ex, ey;
@@ -226,7 +271,7 @@ exports.UiElement = function(width, height, layer, func) {
      * @param {string} child The name of the child element.
      * @param {number} x The x-position of the element.
      * @param {number} y The y position of the element.
-     * @this {UiElement}
+     * @this {UiElement}.
      */
     this.positionChild = function(child, x, y) {
         children[child].x = x;
@@ -259,7 +304,7 @@ exports.UiElement = function(width, height, layer, func) {
      * Set our Size.
      * @param {number} nw New width.
      * @param {number} nh New height.
-     * @this {UiElement}
+     * @this {UiElement}.
      */
     this.setSize = function(nw, nh) {
         width = nw;
@@ -290,8 +335,8 @@ exports.UiElement = function(width, height, layer, func) {
      * @param {int} x The x co-ordinate to place the element.
      * @param {int} y The y co-ordinate to place the element.
      * @param {int=} time Time for the element to stay on the screen in frames negative value if permanent.
-     * @param {string=px} unit The unit to measure the placement with (px or %)
-     * @this {UiElement}
+     * @param {string=px} unit The unit to measure the placement with (px or %).
+     * @this {UiElement}.
      */
     this.addElement = function(name, element, x, y, time, unit) {
         if (typeof unit == 'undefined' || (unit != 'px' && unit != '%')) {
@@ -311,7 +356,7 @@ exports.UiElement = function(width, height, layer, func) {
     /**
      * Removes and element from this container.
      * @param {string} name The name of the element to remove.
-     * @this {UiElement}
+     * @this {UiElement}.
      */
     this.removeElement = function(name) {
         delete children[name];
@@ -325,7 +370,7 @@ exports.UiElement = function(width, height, layer, func) {
      * @param {number} y The y co-ordinate of th event.
      * @param {string} type The event type.
      * @return {object} The element.
-     * @this jenkins.
+     * @this {UiElement}.
      */
     this.handleMouseEvent = function(x, y, type) {
 
@@ -380,7 +425,7 @@ exports.UiElement = function(width, height, layer, func) {
     /**
      * Clears this object from the screen.
      * @param {object} ctx the canvas context to draw on.
-     * @this {UiElement}
+     * @this {UiElement}.
      */
     this.clear = function(ctx) {
         //ctx.clearRect(0, 0, this.getWidth(), this.getHeight());
@@ -396,12 +441,15 @@ exports.UiElement = function(width, height, layer, func) {
     /**
      * Draws the containers contents onto the screen.
      * @param {object} ctx the canvas context to draw on.
-     * @this Jenkins.
+     * @this {UiElement}.
      */
     this.drawComponent = function(ctx) {
 
         //define a default font for all UI elements
         ctx.font = 'normal 12px sans-serif';
+
+        // check if object should be hidden
+        this.checkHideParent();
 
         // check if object should be cleared from screen
         if (!this.isVisible() && this.getRedraw()) {

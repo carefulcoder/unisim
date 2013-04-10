@@ -17,6 +17,13 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A world module, inheriting
+ * from the base module class
+ * Our constructor isn't doing much
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.world = function(game) {
 
     'use strict';
@@ -25,59 +32,67 @@ exports.world = function(game) {
     var width = game.world.getWidth();
     var height = game.world.getHeight();
 
+    var x = 0;
+    var y = 0;
+
     //list of tile changes
     var tileChanges = [];
 
-    //Fill world with grass or water
-    for (var x = 5; x < width - 5; x++) {
-        for (var y = 5; y < height - 5; y++) {
-            if (Math.random() < 0.3) {
-                game.world.setTile(x, y, 'water');
-            }
-        }
-    }
+    generate();
 
-    // add more water tiles
-    for (x = width; x > 0; x--) {
-        for (y = height; y > 0; y--) {
-            if (x + 1 < width && y + 1 < height && game.world.tile(x, y + 1) == 'water' && game.world.tile(x + 1, y) == 'water' && Math.random() > 0.5) {
-                game.world.setTile(x, y, 'water'); //chance of water next to existing water tiles
-            }
-        }
-    }
+    function generate() {
 
-    // fill in the blanks
-    for (var clear = 0; clear < 2; clear++) {
-        for (x = 0; x < width - 4; x++) {
-            for (y = 0; y < height - 4; y++) {
-                if (game.world.countTilesArea(x, y, x + 3, y + 3, 'water') > 7) {
+        //Place some water tiles
+        for (x = 5; x < width - 5; x++) {
+            for (y = 5; y < height - 5; y++) {
+                if (Math.random() < 0.3) {
                     game.world.setTile(x, y, 'water');
                 }
             }
         }
-    }
 
-    // clear lonely water tiles
-    for (clear = 0; clear < 20; clear++) {
-        for (x = 0; x < width - 4; x++) {
-            for (y = 0; y < height - 4; y++) {
-
-                // this must not be greater than 5
-                if (game.world.countTilesArea(x, y, x + 3, y + 3, 'water') < 5) {
-                    game.world.replaceTilesArea(x + 1, y + 1, x + 2, y + 2, 'water', 'grass');
+        // add more water tiles
+        for (x = width; x > 0; x--) {
+            for (y = height; y > 0; y--) {
+                if (x + 1 < width && y + 1 < height && game.world.tile(x, y + 1) == 'water' && game.world.tile(x + 1, y) == 'water' && Math.random() > 0.5) {
+                    game.world.setTile(x, y, 'water'); //chance of water next to existing water tiles
                 }
             }
         }
-    }
 
-    // clear lonely water tiles bottom right to top left
-    for (clear = 0; clear < 20; clear++) {
-        for (x = width - 1; x > 4; x--) {
-            for (y = height - 1; y > 4; y--) {
+        // fill in the blanks
+        for (var clear = 0; clear < 2; clear++) {
+            for (x = 0; x < width - 4; x++) {
+                for (y = 0; y < height - 4; y++) {
+                    if (game.world.countTilesArea(x, y, x + 3, y + 3, 'water') > 7) {
+                        game.world.setTile(x, y, 'water');
+                    }
+                }
+            }
+        }
 
-                // this must not be greater than 5
-                if (game.world.countTilesArea(x - 3, y - 3, x, y, 'water') < 5) {
-                    game.world.replaceTilesArea(x - 1, y - 1, x - 2, y - 2, 'water', 'grass');
+        // clear lonely water tiles
+        for (clear = 0; clear < 20; clear++) {
+            for (x = 0; x < width - 4; x++) {
+                for (y = 0; y < height - 4; y++) {
+
+                    // this must not be greater than 5
+                    if (game.world.countTilesArea(x, y, x + 3, y + 3, 'water') < 5) {
+                        game.world.replaceTilesArea(x + 1, y + 1, x + 2, y + 2, 'water', 'grass');
+                    }
+                }
+            }
+        }
+
+        // clear lonely water tiles bottom right to top left
+        for (clear = 0; clear < 20; clear++) {
+            for (x = width - 1; x > 4; x--) {
+                for (y = height - 1; y > 4; y--) {
+
+                    // this must not be greater than 5
+                    if (game.world.countTilesArea(x - 3, y - 3, x, y, 'water') < 5) {
+                        game.world.replaceTilesArea(x - 1, y - 1, x - 2, y - 2, 'water', 'grass');
+                    }
                 }
             }
         }
@@ -155,7 +170,7 @@ exports.world = function(game) {
                 }
 
                 //grab interior tiles / furnishings to place from the furnisher obj
-                var furnishFunction = 'furnish'+building.getType();
+                var furnishFunction = 'furnish' + building.getType();
 
                 if (!type && furnisher.hasOwnProperty(furnishFunction)) {
                     type = furnisher[furnishFunction](x, y, {x: tl.x + 1, y: tl.y + 1}, {x: br.x - 2, y: br.y - 2});
@@ -180,12 +195,25 @@ exports.world = function(game) {
     });
 
     /**
-     * Send the world to the client when they connect
+     * Called when the client requests a new world
      * @param {object} message The message sent to the server.
      * @param {object} client The client that connected.
      *
      */
-    game.server.on('world', 'connect', function(message, client) {
+    game.server.on('world', 'newWorld', function(message, client) {
+        game.world.clearWorld();
+        generate();
+        game.world.setLoaded(true);
+        client.send('world', 'create', game.world.toJson());
+    });
+
+    /**
+     * Send the world to the client when they load
+     * @param {object} message The message sent to the server.
+     * @param {object} client The client that connected.
+     *
+     */
+    game.server.on('world', 'loaded', function(message, client) {
         client.send('world', 'create', game.world.toJson());
     });
 

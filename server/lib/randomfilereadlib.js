@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Randomly select a number of lines from a file.
+ * @param {String} filename - the filename to randomly select lines from.
+ * @constructor
+ */
 exports.RandomFileReader = function(filename) {
 
     var fs = require('fs');

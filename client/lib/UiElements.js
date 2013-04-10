@@ -42,7 +42,7 @@ exports.Label = function(width, height, text, func) {
     /**
      * Set whether we're centered or not.
      * @param {object} centered position of text.
-     * @this {Label}
+     * @this {Label}.
      */
     this.setCentered = function(centered) {
         alignment = centered ? 'center' : 'left';
@@ -60,7 +60,7 @@ exports.Label = function(width, height, text, func) {
     /**
      * Sets the text of thr label
      * @param {string} newText The text to put on the label.
-     * @this {Label}
+     * @this {Label}.
      */
     this.setText = function(newText) {
         // only redraw if text has actually changed
@@ -81,7 +81,7 @@ exports.Label = function(width, height, text, func) {
     /**
      * Draws the label onto the screen
      * @param {object} ctx the canvas context to draw on.
-     * @this Jenkins.
+     * @this {Label}.
      */
     this.draw = function(ctx) {
         ctx.fillStyle = '#000';
@@ -139,7 +139,7 @@ exports.Button = function(width, height, contents, func) {
     /**
      * Sets the text of thr label
      * @param {string} newContents The text or DOM Image to put on the label.
-     * @this {Button}
+     * @this {Button}.
      */
     this.setContents = function(newContents) {
         if (typeof newContents == 'string' || typeof newContents == 'Image') {
@@ -151,7 +151,7 @@ exports.Button = function(width, height, contents, func) {
     /**
      * Draws the label onto the screen
      * @param {object} ctx the canvas context to draw on.
-     * @this Jenkins.
+     * @this {Button}.
      */
     this.draw = function(ctx) {
         //create a gradient.
@@ -192,6 +192,36 @@ exports.Button.prototype = new ui.UiElement;
 exports.Button.prototype.constructor = exports.Button;
 
 /**
+ * A Button constructor
+ * @param {number} width The button width.
+ * @param {number} height The button height.
+ * @param {string|Image} contents The button text or image.
+ * @param {function=} func Callback.
+ * @constructor
+ */
+exports.CloseButton = function(width, height, contents, func) {
+    // Call parent constructor
+    // TODO: set height and width correctly
+    exports.Button.call(this, width, height, contents, func);
+
+    this.isCloseButton = true;
+
+    this.addListener('mouseup', function(e, self) {
+        self.setHideParent(true);
+    }, this);
+};
+
+//setup close button prototype info.
+exports.CloseButton.prototype = new exports.Button;
+
+/**
+ * Prototype constructor.
+ * @type {function}
+ */
+exports.CloseButton.prototype.constructor = exports.CloseButton;
+
+
+/**
  * A Menu constructor - a visible element container w/title.
  * @param {number} width The menu width.
  * @param {number} height The menu height.
@@ -215,7 +245,7 @@ exports.Menu = function(width, height, title, func) {
     /**
      * Sets the text of the label
      * @param {string} newText The text to put on the label.
-     * @this {Menu}
+     * @this {Menu}.
      */
     this.setTitle = function(newText) {
         titleHeight = newText.length == 0 ? 0 : 20;
@@ -233,7 +263,7 @@ exports.Menu = function(width, height, title, func) {
      * @param {number} paddingX X padding to use.
      * @param {number} paddingY Y padding to use.
      * @param {boolean=false} preserveSize whether to skip resizing elements.
-     * @this Jenkins
+     * @this {Menu}.
      */
     this.distributeChildren = function(vertical, paddingX, paddingY, preserveSize) {
 
@@ -257,7 +287,7 @@ exports.Menu = function(width, height, title, func) {
      * @param {number} paddingX The amount of padding to have each side of the grid space.
      * @param {number} paddingY The amount of padding to have along the Y of the grid.
      * @param {boolean=false} preserveSize Whether to resize elements to fit one space.
-     * @this referenced.
+     * @this {Menu}.
      */
     this.distributeToGrid = function(numX, numY, paddingX, paddingY, preserveSize) {
 
@@ -280,14 +310,15 @@ exports.Menu = function(width, height, title, func) {
                     return;
                 }
 
-                //resize the elem
-                if (!preserveSize) {
-                    this.getChild(children[0]).setSize(widthPerElement, heightPerElement);
-                }
+                    //resize the elem
+                    if (!preserveSize) {
+                        this.getChild(children[0]).setSize(widthPerElement, heightPerElement);
+                    }
 
-                //and position it at the top left of the current grid cell.
-                this.positionChild(children[0], (widthPerElement * x) + (paddingX / 2 * (x + 1)),
-                    (heightPerElement * y) + titleHeight + (paddingY / 2 * (y + 1)));
+                    //and position it at the top left of the current grid cell.
+                    this.positionChild(children[0], (widthPerElement * x) + (paddingX / 2 * (x + 1)),
+                        (heightPerElement * y) + titleHeight + (paddingY / 2 * (y + 1)));
+
                 children.shift();
             }
         }
@@ -297,7 +328,7 @@ exports.Menu = function(width, height, title, func) {
     /**
      * Draws the label onto the screen
      * @param {object} ctx the canvas context to draw on.
-     * @this Jenkins.
+     * @this {Menu}.
      */
     this.draw = function(ctx) {
         ctx.fillStyle = '#ccc';
@@ -348,7 +379,7 @@ exports.Text = function(width, height, text, func) {
     /**
      * Sets the text of thr label
      * @param {string} newText The text to put on the label.
-     * @this {Text}
+     * @this {Text}.
      */
     this.setText = function(newText) {
         text = newText;
@@ -374,7 +405,7 @@ exports.Text = function(width, height, text, func) {
     /**
      * Draws the label onto the screen
      * @param {object} ctx the canvas context to draw on.
-     * @this Jenkins.
+     * @this {Text}.
      */
     this.draw = function(ctx) {
 
@@ -431,7 +462,7 @@ exports.List = function(width, height, func) {
     /**
      * Sets the text of the label
      * @param {Array} nitems The text to put on the label.
-     * @this {List}
+     * @this {List}.
      */
     this.setItems = function(nitems) {
         items = nitems;
@@ -471,7 +502,7 @@ exports.List = function(width, height, func) {
     /**
      * Draws the label onto the screen
      * @param {object} ctx the canvas context to draw on.
-     * @this Jenkins.
+     * @this {List}.
      */
     this.draw = function(ctx) {
         ctx.fillStyle = '#fff';
@@ -543,7 +574,7 @@ exports.ErrorBox = function(text, func) {
     /**
      * Draws the label onto the screen
      * @param {object} ctx the canvas context to draw on.
-     * @this Jenkins.
+     * @this {ErrorBox}.
      */
     this.draw = function(ctx) {
         // nothing to draw

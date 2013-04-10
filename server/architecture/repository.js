@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A repository to load modules
+ * @param {object} game Arbitrary object to pass to modules.
+ * @constructor
+ */
 exports.Repository = function(game) {
 
     'use strict';

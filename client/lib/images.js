@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A class to handle asynchronous loading of multiple images
+ * @type {Object}
+ * @constructor
+ */
 exports.ImageLoader = function() {
 
     this.images = [];
@@ -27,7 +32,7 @@ exports.ImageLoader = function() {
      * Add an image
      * @param {string} source The image source URL.
      * @return {Image} The image, currently blank, that will be loaded into.
-     * @this ImageLoader
+     * @this {ImageLoader}.
      */
     this.addImage = function(source) {
         var image = new Image();
@@ -40,7 +45,7 @@ exports.ImageLoader = function() {
     /**
      * Load all images
      * @param {function} callback The callback to fire when all images are loaded.
-     * @this ImageLoader
+     * @this {ImageLoader}.
      */
     this.load = function(callback) {
 
@@ -52,7 +57,7 @@ exports.ImageLoader = function() {
 
             //tell us when its loaded
             img.onload = function() {
-                if (--scope.toload == 0) {
+                if (--scope.toload == 0 && typeof callback == 'function') {
                     callback(); //fire callback if all images loaded
                 }
             };

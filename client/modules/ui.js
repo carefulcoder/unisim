@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Client UI Module
+ * @param {object} game Shared game data.
+ * @constructor
+ */
 exports.ui = function(game) {
 
     //keep track of any elements we've made invisible

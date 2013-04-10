@@ -1,3 +1,4 @@
+<?php
 /*
 Copyright 2012, 2013 Jake Blatchford, Mike Garwood, Will Oliver, Jonathan Scherrer, Tom Verran
 
@@ -16,8 +17,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
-
-<?php
 
 // Load the file
 $filename = "build/gjslint.txt";

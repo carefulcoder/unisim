@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Constructor for the world object that manages the game world state.
+ * @author Jonathan, Tom
+ * @constructor
+ */
 exports.World = function() {
 
     //World Information
@@ -77,8 +82,10 @@ exports.World = function() {
         ], targetonly: true}
     };
 
-    //add a restaurant chair, accessible like a bed.
-    tileMetadata.restaurantChair = tileMetadata.bed;
+    //add a restaurant chair, accessible like a lecture chair but with collisions.
+    tileMetadata.restaurantChair = JSON.parse(JSON.stringify(tileMetadata.chair));
+    tileMetadata.restaurantChair.targetonly = true;
+    tileMetadata.restaurantChair.collisions = true;
 
     //add a sofa, with the same details as the stool
     tileMetadata.sofa = tileMetadata.barStool;
@@ -146,7 +153,7 @@ exports.World = function() {
     tileMetadata.cornerBl.exits = tileMetadata.cornerBl.entrances;
 
     tileMetadata.cornerBr = JSON.parse(JSON.stringify(tileMetadata.cornerBl));
-    tileMetadata.cornerBr.entrances =  coords.invertValues(tileMetadata.cornerTr.entrances, false, true);
+    tileMetadata.cornerBr.entrances = coords.invertValues(tileMetadata.cornerTr.entrances, false, true);
     tileMetadata.cornerBr.exits = tileMetadata.cornerBr.entrances;
 
     //create a blank world array
@@ -200,6 +207,14 @@ exports.World = function() {
      */
     this.getLoaded = function() {
         return loaded;
+    };
+
+    /**
+     * Sets whether the world has been loaded.
+     * @param {boolean} isLoaded Whether the world has been loaded.
+     */
+    this.setLoaded = function(isLoaded) {
+        loaded = isLoaded;
     };
 
     /**
@@ -271,6 +286,7 @@ exports.World = function() {
      * @param {number} height The number of tiles to check along Y.
      * @param {string} type The tile type to find co-ords of.
      * @param {object=} filter metadata key/values that tiles must have.
+     * @return {object} positions of all tiles of given type in specified area.
      */
     this.getTilesByTypeInArea = function(x, y, width, height, type, filter) {
         var returnArray = [];
@@ -290,7 +306,7 @@ exports.World = function() {
                     for (var key in filter) {
 
                         //skip adding this tile if it doesn't match the metadata filter.
-                        if (filter.hasOwnProperty(key) && (!world[ix][iy].hasOwnProperty(key)  || world[ix][iy][key] != filter[key])) {
+                        if (filter.hasOwnProperty(key) && (!world[ix][iy].hasOwnProperty(key) || world[ix][iy][key] != filter[key])) {
                             add = false;
                             break;
                         }
@@ -313,6 +329,7 @@ exports.World = function() {
      */
     this.setTile = function(x, y, tile) {
         callbacks.fire('changed', {x: x, y: y, type: tile});
+
         world[x][y].type = tile;
     };
 
@@ -383,6 +400,7 @@ exports.World = function() {
      * Get whether the given tile has collision.
      * @param {number} x The x co-ordinate.
      * @param {number} y The y co-ordinate.
+     * @return {boolean} Whether the tile has a collision.
      */
     this.tileHasCollision = function(x, y) {
         return tileMetadata[world[x][y].type].hasOwnProperty('collisions') ? tileMetadata[world[x][y].type].collisions : true;
@@ -439,7 +457,13 @@ exports.World = function() {
      * Clear the world's contents
      */
     this.clearWorld = function() {
-        world = [];
+        for (var x = 0; x < width; x++) {
+            world[x] = [];
+            for (var y = 0; y < height; y++) {
+                world[x][y] = {type: 'grass', reserved: false};
+            }
+        }
+        world[entranceX][entranceY].type = 'entrance';
         loaded = false;
     };
 

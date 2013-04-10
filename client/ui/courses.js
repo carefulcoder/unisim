@@ -121,6 +121,9 @@ exports.Courses = function(game) {
 
         this.distributeToGrid(5, numCourses + 2, 0, 0);
 
+        var closeButton = new basicElements.CloseButton(10, 10, 'X');
+        this.addElement('closebutton', closeButton, -15, 5);
+
     }
 
 };
@@ -132,4 +135,4 @@ exports.Courses.prototype = new basicElements.Menu;
  * Prototype constructor.
  * @type {function}
  */
-exports.Courses.prototype.constructor = exports.Timetable;
+exports.Courses.prototype.constructor = exports.Courses;

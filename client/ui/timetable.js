@@ -40,7 +40,7 @@ exports.Timetable = function(game, building) {
 
     /**
      * Update elements and redraw self.
-     * @this referenced.
+     * @this {Timetable}.
      */
     this.redrawSelf = function() {
 
@@ -176,7 +176,7 @@ exports.SubTimetable = function(game, building, time) {
     }
 
     var buttonFree = new basicElements.Button(40, 40, 'Free');
-        buttonFree.addListener('mouseup', function () {
+        buttonFree.addListener('mouseup', function() {
             game.server.send('time', 'removelecture', {
                 time: time,
                 buildx: building.getX(),

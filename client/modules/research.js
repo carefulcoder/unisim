@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Client Research Module
+ * @param {object} game Shared game data.
+ * @constructor
+ */
 exports.research = function(game) {
 
     var currentResearch = 'None';

@@ -17,6 +17,10 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * An object of building types -> names
+ * @type {Object}
+ */
 exports.Types = ['Academic', 'Recreational', 'Food', 'Accommodation', 'Staff'];
 
 /**
@@ -236,7 +240,7 @@ exports.Building = function(bName, bCost, bType, bminsize) {
     /**
      * Modify number of staff inside the building.
      * @param {Number} amount - the amount to increase numberStaff by.
-     * @this referenced.
+     * @this {Building}.
      */
     this.modifyNumberStaff = function(amount) {
         numberStaff += amount;
@@ -387,7 +391,7 @@ exports.BuildingRepository = function() {
      * @param {Number} heightInTiles The building height in tiles.
      * @param {Number} cap The building capacity.
      * @return {Boolean|Number} Whether we succeeded.
-     * @this referenced.
+     * @this {BuildingRepository}.
      */
     this.addBuilding = function(id, x, y, width, height, widthInTiles, heightInTiles, cap) {
 
@@ -433,6 +437,7 @@ exports.BuildingRepository = function() {
      * @param {String} name The blueprint name.
      * @param {Number} cost the blueprint cost.
      * @param {String} type The blueprint type.
+     * @param {Number} minsize Minimum size in tiles of the building.
      */
     this.addBlueprint = function(name, cost, type, minsize) {
         blueprints.push(new exports.Building(name, cost, type, minsize));
@@ -616,7 +621,7 @@ exports.BuildingRepository = function() {
     /**
      * Adds the given JSON building to the list of buildings in the game.
      * @param {Object} json JSON object of building.
-     * @this Jenkins.
+     * @this {BuildingRepository}.
      */
     this.addBuildingFromJson = function(json) {
         var building = this.buildingFromJson(json.building);
@@ -635,7 +640,7 @@ exports.BuildingRepository = function() {
     /**
      * Populate buildings from JSON
      * @param {object} json JSON objects.
-     * @this referenced.
+     * @this {BuildingRepository}.
      */
     this.fromJson = function(json) {
 
@@ -674,12 +679,12 @@ exports.BuildingRepository = function() {
      */
     this.clearBuildings = function() {
         buildings = [];
-        blueprints = [];
     };
 
     /**
      * See if there is any free accommodation, and return the building if there is.
      * @return {Object} - the accommodation building if there is space or null.
+     * @this {BuildingRepository}.
      */
     this.getFreeAccommodation = function() {
 
@@ -698,6 +703,7 @@ exports.BuildingRepository = function() {
     /**
      * See if there is any free accommodation, and return the building if there is.
      * @return {Object} - the accommodation building if there is space or null.
+     * @this {BuildingRepository}.
      */
     this.getFreeStaffRoom = function() {
 

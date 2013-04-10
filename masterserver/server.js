@@ -55,7 +55,7 @@ fs.exists(fileName, function(exists) {
 
 //init http server, serve anything in /client or /shared
 var httpServer = require('http').createServer(app);
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public_html'));
 
 //create a scheduler to fire tick events
 var cb = require('../shared/callback.js');
@@ -67,20 +67,20 @@ var cb = require('../shared/callback.js');
 gameObjects.scheduler = new cb.CallbackManager();
 
 //now create our socket.io server abstraction obj
-var masterServer = require('./architecture/server.js');
+var server = require('./architecture/server.js');
 
 /**
  * A net server abstracted from socket IO.
  * @type {gameServer.Server}
  */
-gameObjects.server = new masterServer.Server(httpServer);
+gameObjects.server = new server.Server(httpServer);
 
 //Load modules through Repository
 var rep = require('./architecture/repository.js');
 var repository = new rep.Repository(gameObjects);
 
 //and set our http server going
-httpServer.listen(9091);
+httpServer.listen(80);
 
 /*
  * Server Input Monitor
@@ -104,7 +104,7 @@ stdin.on('data', function(chunk) {
  * Desired delay between refreshing server list in seconds.
  * @type {number}
  */
-var delay = 15;
+var delay = 1;
 
 /**
  * The time interval in ms that the server should check for next update.
@@ -120,9 +120,8 @@ var nextGameTick = (new Date).getTime();
 
 //server loop
 (function loop() {
-
     //While the time is past the next tick and we haven't updated maximum times.
-    while ((new Date).getTime() > nextGameTick) {
+    while ((new Date).getTime() >= nextGameTick) {
         gameObjects.scheduler.fire('tick', {});
         nextGameTick += skipTicks; //Add time until next update.
     }

@@ -17,6 +17,12 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Actor module which calculates new destinations for the actors depending on
+ * the time of day, their role, and current location, with a reference to all actors.
+ * @param {object} game The shared domain model.
+ * @constructor
+ */
 exports.actors = function(game) {
 
     //require in our A* path finding library
@@ -60,6 +66,7 @@ exports.actors = function(game) {
     /**
      * Get a target building for the given actor to pathfind their way to.
      * @param {object} actor The actor looking for a building.
+     * @return {object} Targeted building.
      */
     var getTargetBuilding = function(actor) {
 
@@ -181,8 +188,8 @@ exports.actors = function(game) {
                 student: 'chair'  //while students sit on chairs.
             },
             Food: {
-                staff: 'floor',
-                student: 'floor'
+                staff: 'restaurantChair',
+                student: 'restaurantChair'
             },
             Recreational: {
                 staff: 'barStool',
@@ -271,7 +278,7 @@ exports.actors = function(game) {
         actor.setAttribute('waiting', maxWaitTime);
 
         //handle releasing locks on tiles if we are actually due to move away somewhere.
-        if(targetX != Math.floor(actor.getX() / gridSize) || targetY != Math.floor(actor.getY() / gridSize)) {
+        if (targetX != Math.floor(actor.getX() / gridSize) || targetY != Math.floor(actor.getY() / gridSize)) {
 
             //staff leaving lecture rooms
             if (actor.getType() == 'staff') {
@@ -405,13 +412,12 @@ exports.actors = function(game) {
     });
 
     /**
-     * Send the actors to the client when they connect
+     * Send the actors to the client when they have loaded
      * @param {object} message The message sent to the server.
      * @param {object} client The client that connected.
      */
-    game.server.on('actors', 'connect', function(message, client) {
+    game.server.on('actors', 'loaded', function(message, client) {
         client.send('actors', 'create', game.actors.toJson());
-        client.send('actors', 'blocked', collisions.getBlockedActorInfo());
     });
 
     /**
@@ -619,6 +625,20 @@ exports.actors = function(game) {
     });
 
     /**
+     * Called when the client requests a new world
+     * @param {object} message The message sent to the server.
+     * @param {object} client The client that connected.
+     *
+     */
+    game.server.on('actors', 'newWorld', function(message, client) {
+        game.actors.clearActors();
+        collisions.reset();
+        client.send('actors', 'blocked', collisions.getBlockedActorInfo());
+        client.send('actors', 'clear');
+        client.send('actors', 'redownload');
+    });
+
+    /**
      * Save the actor module's contents to file.
      * @param {object} msg The msg from the client.
      * @param {object} client The client.
@@ -637,6 +657,8 @@ exports.actors = function(game) {
         var json = game.saveload.load('actors', msg.savename);
         client.send('actors', 'clear');
         game.actors.fromJson(json);
+        collisions.reset();
+        client.send('actors', 'blocked', collisions.getBlockedActorInfo());
         client.send('actors', 'redownload');
     });
 

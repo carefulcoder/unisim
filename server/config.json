@@ -1,4 +1,4 @@
 {
-    "name": "Unisim Official Server",
-    "maxClients": "3"
+    "name": "The Unisim Development Server",
+    "masterAddress": "localhost"
 }

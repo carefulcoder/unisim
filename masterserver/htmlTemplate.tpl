@@ -6,6 +6,8 @@
 <head>
 
 <title>Unisim Server List</title>
+<link href="style.css" rel="stylesheet" type="text/css"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 </head>
 
@@ -13,22 +15,29 @@
 
 <h1>Welcome to the UniSim server list!</h1>
 
+{{#empty}}
+<p>There are no servers registered to the server at the moment.</p>
+{{/empty}}
+
+{{#servers.length}}
+
 <p>Below is a list of all running UniSim servers that have registered to have their server list</p>
 
 <table>
+    <tr>
+        <th>Server Name</th>
+        <th>Clients</th>
+        <th>Link</th>
+    </tr>
     {{#servers}}
         <tr>
-            <th>Server Name</th>
-            <th>Clients</th>
-            <th>Link</th>
-        </tr>
-        <tr>
             <td>{{name}}</td>
-            <td>{{clients}}&#47;{{maxClients}}</td>
+            <td>{{clients}}</td>
             <td><a href="http&#58;&#47;&#47;{{address}}">Play Now!</a></td>
         </tr>
     {{/servers}}
-<table>
+</table>
+{{/servers.length}}
 
 </body>
 

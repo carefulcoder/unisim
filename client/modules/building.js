@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Client side building module
+ * @param {object} game The game.
+ * @constructor
+ */
 exports.building = function(game) {
 
     var tileSize = game.world.getTileSize();

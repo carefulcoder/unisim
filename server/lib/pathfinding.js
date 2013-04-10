@@ -17,7 +17,17 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/*
+ * Callback manager to fire debug callbacks
+ * showing the state of the pathfinding algorithm at any given time.
+ */
 var cb = require('../../shared/callback.js');
+
+/**
+ * Callback manager for debug callbacks,
+ * fired to allow the client to be sent details of the algorithm as it progresses.
+ * @type {cb.CallbackManager}
+ */
 exports.debug = new cb.CallbackManager();
 
 /**
@@ -39,12 +49,13 @@ var containsCoords = function(array, coords) {
 };
 
 /**
- * Helper function used by the pathfinding
- * to convert a list of available exit directions (as compass points)
- * into x & y co-ordinates of valid adjacent tiles.
+ * Helper function used by the pathfinding,
+ * Gets adjacent tiles taking into account
+ * entrace and exit directions
  * @param {number} tx The current tile X.
  * @param {number} ty The current tile Y.
  * @param {Array} matrix navMatrix.
+ * @return {Array} array of tiles.
  */
 var getAdjacenciesByCompassPoints = function(tx, ty, matrix) {
 

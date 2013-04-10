@@ -27,17 +27,17 @@ if (typeof jenkins !== 'undefined') {
 
 //Forward declare the server so it can be added to the repository
 var gameObjects = {
-
-    world: null, //world module that stores game world
-    server: null, //the server to connect to
-    money: null, //the money module that stores player balance
+    world: null, //world module that stores game world.
+    server: null, //the server to connect to.
+    money: null, //the money module that stores player balance.
     actors: null, //actors module.
     time: null, //timing module.
     research: null, //research module.
-    courses: null, //courses module
+    courses: null, //courses module.
     speed: null, //multiplier for speed things.
-    masterServer: null, //The master server object
-    config: null //Stores config properties
+    masterServer: null, //The master server object.
+    config: null, //Stores config properties.
+    startingMoney: 100000 //Amount of money to start with.
 };
 
 //Create the game world
@@ -49,11 +49,15 @@ var timeModule = require('../shared/timelib.js');
 var courseModule = require('../shared/courselib.js');
 var moneyModule = require('./lib/money.js');
 var saveloadModule = require('./lib/saveloadlib.js');
-var registerModule = require('./lib/saveloadlib.js');
 
 //Load the config file
 var fs = require('fs');
 var fileName = 'config.json';
+
+/**
+ * A json object representing server configuration.
+ * @type {object}
+ */
 gameObjects.config = JSON.parse(fs.readFileSync(fileName, 'utf8'));
 
 /**
@@ -67,7 +71,7 @@ gameObjects.world = new worldModule.World();
  * @type {moneyModule.Money}
  */
 gameObjects.money = new moneyModule.Money();
-gameObjects.money.initialize(100000);
+gameObjects.money.initialize(gameObjects.startingMoney);
 
 /**
  * A shared actor repository.
@@ -136,6 +140,10 @@ gameObjects.server = new gameServer.Server(httpServer);
 var masterServer = require('./architecture/register.js');
 
 //Create our master server abstraction object, give it a reference to the game server object, so it can get the number of connected clients
+/**
+ * A master server abstracted from socket IO.
+ * @type {masterServer.Register}
+ */
 gameObjects.masterServer = new masterServer.Register(gameObjects.server, gameObjects.config);
 
 //Load modules through Repository

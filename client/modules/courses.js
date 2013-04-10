@@ -17,9 +17,12 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Client Time Module
+ * @param {object} game Shared game data.
+ * @constructor
+ */
 exports.courses = function(game) {
-
-    var uiShown = false;
 
     //Courses UI
     var ui = require('ui/courses.js');
@@ -28,19 +31,18 @@ exports.courses = function(game) {
     var makeCoursesUI = function() {
         coursesUI = new ui.Courses(game);
         game.container.addElement('courses', coursesUI, -360, 210);
-        coursesUI.setVisible(uiShown);
     };
 
     //Courses Button
     var uiElem = require('lib/UiElements.js');
     var coursesButton = new uiElem.Button(50, 20, 'Courses');
     coursesButton.addListener('mouseup', function(e) {
-        if (uiShown) {
-            coursesUI.setVisible(false);
-            uiShown = false;
-        } else {
-            uiShown = true;
+        if (coursesUI == null) {
             makeCoursesUI();
+        } else if (coursesUI.isVisible()) {
+            coursesUI.setVisible(false);
+        } else {
+            coursesUI.setVisible(true);
         }
     });
 
@@ -66,7 +68,6 @@ exports.courses = function(game) {
      */
     this.hidecoursesEvent = function() {
         coursesUI.setVisible(false);
-        uishown = false;
     };
 
     /**

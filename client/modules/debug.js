@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A debug module that exists to visualise A* pathfinding.
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.debug = function(game) {
 
     var open = [];
@@ -26,7 +31,7 @@ exports.debug = function(game) {
 
     /**
      * Respond to a new currentNode
-     * @param node
+     * @param {object} node The new currentNode from the A* algorithm.
      */
     this.currentEvent = function(node) {
         currentNode = node;
@@ -35,7 +40,7 @@ exports.debug = function(game) {
 
     /**
      * Respond to a new adjacent node
-     * @param node
+     * @param {object} node A new adjacent node from the A* algorithm.
      */
     this.adjacentEvent = function(node) {
         adjacencies.push(node);
@@ -43,7 +48,7 @@ exports.debug = function(game) {
 
     /**
      * Show a new open list
-     * @param list
+     * @param {Array} list The open list of nodes to be considered.
      */
     this.openEvent = function(list) {
         open = list;
@@ -51,7 +56,7 @@ exports.debug = function(game) {
 
     /**
      * show a new closed list
-     * @param list
+     * @param {Array} list The closed list of tiles seen by the pathfinding.
      */
     this.closedEvent = function(list) {
         closed = list;
@@ -89,5 +94,5 @@ exports.debug = function(game) {
             ctx.fillStyle = 'rgba(0,0,255,0.5)';
             ctx.fillRect(currentNode.x * tileSize - game.offsetX, currentNode.y * tileSize - game.offsetY, tileSize, tileSize);
         }
-    }
+    };
 };

@@ -17,6 +17,12 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A module to responsible for storing the time,
+ * and scheduling events based upon time.
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.time = function(game) {
 
     /**
@@ -123,6 +129,17 @@ exports.time = function(game) {
             var resultNow = game.time.checkLectureNow();
             game.server.broadcast('time', 'lectures', {lecsoon: resultSoon, lecnow: resultNow});
         }
+    });
+
+    /**
+     * Called when the client requests a new world
+     * @param {object} message The message sent to the server.
+     * @param {object} client The client that connected.
+     *
+     */
+    game.server.on('building', 'newWorld', function(message, client) {
+        game.time.setTime(10, 0);
+        client.send('time', 'redownload');
     });
 
     /**

@@ -17,10 +17,20 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Text wrapping function for HTML5 canvas.
+ * Modified from http://www.html5canvastutorials.com/tutorials/html5-canvas-wrap-text-tutorial/ to support \n
+ * @param {object} context The canvas context to wrap text within.
+ * @param {String} text The actual text to wrap.
+ * @param {number} x The x position to begin drawing.
+ * @param {number} y The y position to begin drawing.
+ * @param {number} maxWidth Maximum line width.
+ * @param {number=20} lineHeight The line height.
+ */
 exports.drawWrappedText = function(context, text, x, y, maxWidth, lineHeight) {
 
     text = text.toString();
-    if (typeof lineHeight == "undefined") {
+    if (typeof lineHeight == 'undefined') {
         lineHeight = 20;
     }
 
@@ -38,10 +48,10 @@ exports.drawWrappedText = function(context, text, x, y, maxWidth, lineHeight) {
 
         //note - we don't bother trying to break if we only have one word.
         //break onto a new line if the text is going to be too long or if the word ends with a newline
-        if (words.length > 1 && (testWidth > maxWidth || (n > 0 && words[n - 1].charAt(words[n - 1].length - 1) == "\n"))) {
+        if (words.length > 1 && (testWidth > maxWidth || (n > 0 && words[n - 1].charAt(words[n - 1].length - 1) == '\n'))) {
             context.fillText(line, x, y);
             line = words[n] + ' ';
-            y += lineHeight
+            y += lineHeight;
         }
         else {
             line = testLine;

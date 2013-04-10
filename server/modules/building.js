@@ -17,6 +17,12 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A module to handle buildings within the game world,
+ * keeping track of building types and their placement
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.building = function(game) {
 
     //add blueprints that are available from the start.
@@ -41,11 +47,11 @@ exports.building = function(game) {
     });
 
     /**
-     * Called when the client connects,send them a list of buildings
+     * Called when the client is loaded, send them a list of buildings
      * @param {object} msg The msg from the client.
      * @param {object} client The client.
      */
-    game.server.on('building', 'connect', function(msg, client) {
+    game.server.on('building', 'loaded', function(msg, client) {
         client.send('building', 'update', game.buildings.toJson());
     });
 
@@ -66,7 +72,6 @@ exports.building = function(game) {
      * @param {object} client The client.
      */
     game.server.on('building', 'create', function(msg, client) {
-
         var ntl = {}, nbr = {};
 
         //ensure tl is top left, br is bottom right
@@ -104,6 +109,18 @@ exports.building = function(game) {
         } else {
             client.send('ui', 'error', 'These tiles cannot be built on');
         }
+    });
+
+    /**
+     * Called when the client requests a new world
+     * @param {object} message The message sent to the server.
+     * @param {object} client The client that connected.
+     *
+     */
+    game.server.on('building', 'newWorld', function(message, client) {
+        game.buildings.clearBuildings();
+        client.send('building', 'clear');
+        client.send('building', 'redownload');
     });
 
     /**

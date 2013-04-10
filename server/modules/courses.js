@@ -17,23 +17,36 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * The courses module, for keeping
+ * track of which courses are being run.
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.courses = function(game) {
 
     'use strict';
 
-    //Hardcoded courses that can be enlisted.
-    game.courses.addCourse('Art', 1, 0);
-    game.courses.addCourse('Maths', 3, 2);
-    game.courses.addCourse('Physics', 4, 3);
-    game.courses.addCourse('English', 6, 10);
-    game.courses.addCourse('Comp Sci.', 12, 4);
+    loadCourses();
 
     /**
-     * Send the courses to the client when they connect
+     * Enters the default courses into the courses object.
+     */
+    function loadCourses() {
+        //Hardcoded courses that can be enlisted.
+        game.courses.addCourse('Art', 1, 0);
+        game.courses.addCourse('Maths', 3, 2);
+        game.courses.addCourse('Physics', 4, 3);
+        game.courses.addCourse('English', 6, 10);
+        game.courses.addCourse('Comp Sci.', 12, 4);
+    }
+
+    /**
+     * Send the courses to the client when they load
      * @param {object} message The message sent to the server.
      * @param {object} client The client that connected.
      */
-    game.server.on('courses', 'connect', function(message, client) {
+    game.server.on('courses', 'loaded', function(message, client) {
         client.send('courses', 'set', game.courses.toJSON());
     });
 
@@ -71,6 +84,18 @@ exports.courses = function(game) {
     });
 
     /**
+     * Called when the client requests a new world
+     * @param {object} message The message sent to the server.
+     * @param {object} client The client that connected.
+     *
+     */
+    game.server.on('building', 'newWorld', function(message, client) {
+        game.courses.clearCourses();
+        loadCourses();
+        client.send('courses', 'redownload');
+    });
+
+    /**
      * Saves course module.
      */
     game.server.on('courses', 'save', function(message, client) {
@@ -88,7 +113,7 @@ exports.courses = function(game) {
         game.courses.fromJSON(json);
         client.send('courses', 'redownload');
     });
-    
+
     /**
      * A redownload of the courses has been requested
      * @param {object} message The message sent to the server.

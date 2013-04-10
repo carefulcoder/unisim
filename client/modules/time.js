@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Client Time Module
+ * @param {object} game Shared game data.
+ * @constructor
+ */
 exports.time = function(game) {
 
     var currentHour;

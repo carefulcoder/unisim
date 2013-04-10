@@ -263,13 +263,6 @@ exports.Tutorial5 = function(game) {
     labelText1.setCentered(true);
     this.addElement('labelText1', labelText1, 10, 30);
 
-    var buttonSkip = new basicElements.Button(40, 20, 'Skip');
-    this.addElement('buttonSkip', buttonSkip, 300, 220);
-    buttonSkip.addListener('mouseup', function(e) {
-        me.setVisible(false);
-        skipFunc();
-    });
-
     this.nextTutorialPhase = function(func) {
         nextPhase = func;
     };
@@ -309,13 +302,6 @@ exports.Tutorial6 = function(game) {
         'Click on the courses button at the top of the screen.');
     labelText1.setCentered(true);
     this.addElement('labelText1', labelText1, 10, 30);
-
-    var buttonSkip = new basicElements.Button(40, 20, 'Skip');
-    this.addElement('buttonSkip', buttonSkip, 150, 170);
-    buttonSkip.addListener('mouseup', function(e) {
-        me.setVisible(false);
-        skipFunc();
-    });
 
     this.nextTutorialPhase = function(func) {
         nextPhase = func;
@@ -358,13 +344,6 @@ exports.Tutorial7 = function(game) {
     labelText1.setCentered(true);
     this.addElement('labelText1', labelText1, 10, 30);
 
-    var buttonSkip = new basicElements.Button(40, 20, 'Skip');
-    this.addElement('buttonSkip', buttonSkip, 250, 160);
-    buttonSkip.addListener('mouseup', function(e) {
-        me.setVisible(false);
-        skipFunc();
-    });
-
     this.nextTutorialPhase = function(func) {
         nextPhase = func;
     };
@@ -405,13 +384,6 @@ exports.Tutorial8 = function(game) {
             'Click on the staff button, also found at the top of the screen.');
     labelText1.setCentered(true);
     this.addElement('labelText1', labelText1, 10, 30);
-
-    var buttonSkip = new basicElements.Button(40, 20, 'Skip');
-    this.addElement('buttonSkip', buttonSkip, 250, 120);
-    buttonSkip.addListener('mouseup', function(e) {
-        me.setVisible(false);
-        skipFunc();
-    });
 
     this.nextTutorialPhase = function(func) {
         nextPhase = func;
@@ -457,13 +429,6 @@ exports.Tutorial9 = function(game) {
     labelText1.setCentered(true);
     this.addElement('labelText1', labelText1, 10, 30);
 
-    var buttonSkip = new basicElements.Button(40, 20, 'Skip');
-    this.addElement('buttonSkip', buttonSkip, 150, 270);
-    buttonSkip.addListener('mouseup', function(e) {
-        me.setVisible(false);
-        skipFunc();
-    });
-
     this.nextTutorialPhase = function(func) {
         nextPhase = func;
     };
@@ -505,13 +470,6 @@ exports.Tutorial10 = function(game) {
     labelText1.setCentered(true);
     this.addElement('labelText1', labelText1, 10, 30);
 
-    var buttonSkip = new basicElements.Button(40, 20, 'Skip');
-    this.addElement('buttonSkip', buttonSkip, 150, 170);
-    buttonSkip.addListener('mouseup', function(e) {
-        me.setVisible(false);
-        skipFunc();
-    });
-
     this.nextTutorialPhase = function(func) {
         nextPhase = func;
     };
@@ -551,13 +509,6 @@ exports.Tutorial11 = function(game) {
             'Click on one of the free lecture slots and assign Art to that slot.');
     labelText1.setCentered(true);
     this.addElement('labelText1', labelText1, 10, 30);
-
-    var buttonSkip = new basicElements.Button(40, 20, 'Skip');
-    this.addElement('buttonSkip', buttonSkip, 150, 150);
-    buttonSkip.addListener('mouseup', function(e) {
-        me.setVisible(false);
-        skipFunc();
-    });
 
     this.nextTutorialPhase = function(func) {
         nextPhase = func;
@@ -599,13 +550,6 @@ exports.Tutorial12 = function(game) {
             'You need to build Accommodation for students to live in. Build some "Flat Flats" now.');
     labelText1.setCentered(true);
     this.addElement('labelText1', labelText1, 10, 30);
-
-    var buttonSkip = new basicElements.Button(40, 20, 'Skip');
-    this.addElement('buttonSkip', buttonSkip, 150, 220);
-    buttonSkip.addListener('mouseup', function(e) {
-        me.setVisible(false);
-        skipFunc();
-    });
 
     this.nextTutorialPhase = function(func) {
         nextPhase = func;

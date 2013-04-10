@@ -17,17 +17,27 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A module to manage connected servers
+ * @param {object} game Shared server objects.
+ * @constructor
+ */
 exports.connections = function(game) {
 
     /**
-     * Called when the client connects,send them a list of buildings
-     * @param {object} msg The msg from the client.
-     * @param {object} client The client.
+     * Called when the server connects, sends them a request for details.
+     * @param {object} msg The msg from the server.
+     * @param {object} client The server.
      */
     game.server.on('connections', 'connect', function(msg, client) {
         client.send('connections', 'requestDetails', {});
     });
 
+    /**
+     * Called when the server sends its details.
+     * @param {object} msg The msg from the server.
+     * @param {object} client The server.
+     */
     game.server.on('connections', 'sendDetails', function(msg, client) {
         game.servers[msg.name] = {details: msg.details, client: client, alive: true};
         game.servers[msg.name].details.address = msg.address;

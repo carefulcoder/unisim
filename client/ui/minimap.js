@@ -60,7 +60,7 @@ exports.Minimap = function(width, height, worldTileSize, minimapDim, myWorld) {
      * @param {Number} x The x coordinate to change.
      * @param {Number} y The y coordinate to change.
      * @param {String} colour The colour to change this coordinate to.
-     * @this {Minimap}
+     * @this {Minimap}.
      */
     this.updateMap = function(x, y, colour) {
         mapCtx.fillStyle = colour;
@@ -130,7 +130,7 @@ exports.Minimap = function(width, height, worldTileSize, minimapDim, myWorld) {
      * Updates the current offset X and Y coordinates
      * @param {Number} x The new offset x coordinate.
      * @param {Number} y The new offset y coordinate.
-     * @this {Minimap}
+     * @this {Minimap}.
      */
     this.setOffset = function(x, y) {
         offsetX = x;

@@ -17,6 +17,10 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A test module to see if events are handled.
+ * @constructor
+ */
 exports.test = function() {
 
     'use strict';

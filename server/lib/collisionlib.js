@@ -64,6 +64,13 @@ exports.CollisionManager = function(world, actors) {
     }
 
     /**
+     * Resets certain state variables
+     */
+    this.reset = function() {
+        blockedActors = {};
+    };
+
+    /**
      * Find out whether the given world tile contains a stationary actor.
      * @param {number} x The x tile.
      * @param {number} y The y tile.

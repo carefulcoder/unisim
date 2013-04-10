@@ -1,3 +1,4 @@
+<?php
 /*
 Copyright 2012, 2013 Jake Blatchford, Mike Garwood, Will Oliver, Jonathan Scherrer, Tom Verran
 
@@ -17,7 +18,6 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-<?php
 /**
  * Tom's Automagical debug symbol insertion.
  * Because we use XHRs and eval() to require in our clientside JS

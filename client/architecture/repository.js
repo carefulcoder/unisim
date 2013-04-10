@@ -17,6 +17,13 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A much simpler client side repo for modules, all loaded manually,
+ * since scanning the contents of a remote folder isn't really
+ * something that is possible or a good idea.
+ * @param {object} game Shared game data.
+ * @constructor
+ */
 exports.Repository = function(game) {
 
     'use strict';
@@ -35,7 +42,7 @@ exports.Repository = function(game) {
             modules[load[i]] = new namespace[load[i]](game);
             console.log('loaded ' + load[i]);
         }
-    }
+    };
 
     /**
      * Get all loaded modules

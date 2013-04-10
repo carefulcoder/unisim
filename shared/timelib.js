@@ -17,6 +17,12 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Time repository.
+ * @param {Integer} startHour - The starting hour to set the time.
+ * @param {Integer} startMin - The starting minute to set the time.
+ * @constructor
+ */
 exports.TimeRepository = function(startHour, startMin) {
 
     var currentHour = 0;
@@ -213,7 +219,7 @@ exports.TimeTable = function() {
      * @param {Integer} endHour - the starting minute of the lecture (0 <= t < 24).
      * @param {Integer} endMin - the ending minute of the lecture (0 <= t < 60).
      * @return {Boolean} - returns if successfully added.
-     * @this referenced
+     * @this {TimeTable}.
      */
     this.addLecture = function(course, startHour, startMin, endHour, endMin) {
 
@@ -238,13 +244,12 @@ exports.TimeTable = function() {
 
     /**
      * Removes a lecture from the timetable system.
-     * @param {String} course - the course that the lecture teaches.
      * @param {Integer} startHour - the starting hour of the lecture (0 <= t < 24).
      * @param {Integer} startMin - the ending hour of the lecture (0 <= t < 60).
      * @param {Integer} endHour - the starting minute of the lecture (0 <= t < 24).
      * @param {Integer} endMin - the ending minute of the lecture (0 <= t < 60).
      * @return {String} - returns coursetype of the lecture removed or null.
-     * @this referenced
+     * @this {TimeTable}.
      */
     this.removeLecture = function(startHour, startMin, endHour, endMin) {
         //Check lecture does not end before it finishes.
@@ -262,8 +267,7 @@ exports.TimeTable = function() {
         }
 
         return null;
-
-    }
+    };
 
     /**
      * Checks if the times entered overlaps with an existing lecture.
@@ -373,6 +377,7 @@ exports.TimeTable = function() {
     /**
      * Convert network data (JSON) into timetable data.
      * @param {Object} json - the json data.
+     * @this {TimeTable}.
      */
     this.fromJSON = function(json) {
         var array = json.array;
@@ -492,8 +497,8 @@ exports.Lecture = function(initCourse, initStartHour, initStartMin, initEndHour,
             startMin: startMin,
             endHour: endHour,
             endMin: endMin
-        }
+        };
         return json;
-    }
+    };
 
 };

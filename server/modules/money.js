@@ -17,16 +17,23 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A money module, for keeping
+ * track of a player's money.
+ * Our constructor isn't doing much
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.money = function(game) {
 
     'use strict';
 
     /**
-     * Send the money to the client when they connect
+     * Send the money to the client when they load
      * @param {object} message The message sent to the server.
      * @param {object} client The client that connected.
      */
-    game.server.on('money', 'connect', function(message, client) {
+    game.server.on('money', 'loaded', function(message, client) {
         client.send('money', 'set', game.money.getBalance());
     });
 
@@ -47,6 +54,17 @@ exports.money = function(game) {
             game.server.broadcast('money', 'set', game.money.getBalance());
             game.money.setChanged(false);
         }
+    });
+
+    /**
+     * Called when the client requests a new world
+     * @param {object} message The message sent to the server.
+     * @param {object} client The client that connected.
+     *
+     */
+    game.server.on('building', 'newWorld', function(message, client) {
+        game.money.initialize(game.startingMoney);
+        client.send('money', 'redownload');
     });
 
     /**

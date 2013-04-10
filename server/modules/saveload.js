@@ -17,6 +17,12 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Save/Load module to give names of save load slots. Also manages saving
+ * granular progress for later review.
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.saveload = function(game) {
 
     'use strict';
@@ -45,6 +51,16 @@ exports.saveload = function(game) {
         }
         //This is sent to all modules, because saveload, and mainmenu may want it.
         client.send(null, 'savelist', saves);
+    });
+
+    /**
+     * Deletes the specified savegame.
+     * @param {object} message The message sent to the server.
+     * @param {object} client The client that connected.
+     */
+    game.server.on('saveload', 'delete', function(message, client) {
+        var save = message.savename;
+        game.saveload.delete(save);
     });
 
     /**

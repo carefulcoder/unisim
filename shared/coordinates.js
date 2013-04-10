@@ -18,17 +18,23 @@ along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /**
+ * Simple co-ordinate manipulation library, used to
+ * procedurally generate entrance & exit co-ordinates in the world lib.
+ */
+
+/**
  * Return the given co-ordinate array with the x/y co-ordinates in each object inverted.
  * @param {Array} coordinates an array of {x: , y:} objects.
- * @param {boolean=true} flipX whether to f'ip the X axis.
+ * @param {boolean=true} flipX whether to flip the X axis.
  * @param {boolean=true} flipY whether to flip the Y axis.
+ * @return {Array} The given coordinate array flipped in the specified axis.
  */
 exports.invertValues = function(coordinates, flipX, flipY) {
     if (typeof flipX == 'undefined') {
-        flipX = true
+        flipX = true;
     }
     if (typeof flipY == 'undefined') {
-        flipY = true
+        flipY = true;
     }
     var returnArray = [];
     for (var i = 0; i < coordinates.length; i++) {
@@ -42,6 +48,7 @@ exports.invertValues = function(coordinates, flipX, flipY) {
  * Invert the axes of the co-ordinate array, so X co-ordinates become Y, and Y become X.
  * This has the effect of a 90 degree turn to the right.
  * @param {Array} coordinates an array of {x: , y:} objects.
+ * @return {Array} array of coordinates with inverted axes.
  */
 exports.invertAxes = function(coordinates) {
     var returnArray = [];

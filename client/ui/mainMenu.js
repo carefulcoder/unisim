@@ -9,7 +9,7 @@ var basicElements = require('../lib/UiElements.js');
 exports.MainMenu = function(game) {
 
     // Call parent constructor
-    basicElements.Menu.call(this, 400, 400, 'Main Menu');
+    basicElements.Menu.call(this, 400, 230, 'Main Menu');
     var list = new basicElements.List(180, 230);
     this.addElement('list', list, 10, 10);
 
@@ -17,38 +17,51 @@ exports.MainMenu = function(game) {
     label.setCentered(true);
     label.setText('Welcome to unisim! \n You are playing on: ' + game.config.name);
     list.addElement('LabelCourses', label, 0, 0);
-    
+
     var newGame = new basicElements.Button(380, 40, 'New Game');
     list.addElement('New Game', newGame, 5, 50);
-    
+
     newGame.addListener('mouseup', function(e) {
+        if (game.mainMenu) {
+            game.server.send(null, 'newWorld', {msg: null});
+            game.server.send(null, 'loaded', {msg: null});
+        }
         game.mainMenu = false;
         game.menuClosed = true;
     });
-    
+
+    var continueGame = new basicElements.Button(380, 40, 'Continue Game');
+    list.addElement('Continue Game', continueGame, 5, 100);
+
+    continueGame.addListener('mouseup', function(e) {
+        if (game.mainMenu) {
+            game.server.send(null, 'loaded', {msg: null});
+        }
+        game.mainMenu = false;
+        game.menuClosed = true;
+    });
+
     var loadGame = new basicElements.Button(380, 40, 'Load Game');
-    list.addElement('Load Game', loadGame, 5, 100);
-    
+    list.addElement('Load Game', loadGame, 5, 150);
+
     var saveload = require('../ui/saveload.js');
-    var load = null;
-    
+    var load = new saveload.Saveload(game);
+    load.setVisible(false);
+
     loadGame.addListener('mouseup', function(e) {
-        if (load != null && load.isVisible()) {
+        if (load.isVisible()) {
             load.setVisible(false);
         } else {
-            load = new saveload.Saveload(game, 'Load');
-            list.addElement('load', load, 70, 150);
+            game.menuContainer.addElement('load', load, Math.floor(game.menuContainer.getWidth() / 2) - 125, Math.floor(game.menuContainer.getHeight() / 2) + 120);
             load.setVisible(true);
             game.server.send('saveload', 'getsaves', null);
-            load.loadListen();
         }
     });
-    
+
     this.distributeChildren(true, 10, 10);
-    
     this.setSaves = function(saves) {
         load.setSaves(saves);
-    }
+    };
 };
 
 //setup menu prototype info.

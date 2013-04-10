@@ -17,6 +17,13 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Actor class, representing their type, x and y coordinates,
+ * and destination, with some decision making functions.
+ * @param {object} game Shared domain model.
+ * @author Michael
+ * @constructor
+ */
 exports.actors = function(game) {
 
     //Graphics stuff
@@ -86,11 +93,13 @@ exports.actors = function(game) {
     var uiElem = require('lib/UiElements.js');
     var staffButton = new uiElem.Button(50, 20, 'Staff');
     staffButton.addListener('mouseup', function(e) {
-        if (staffUIShown) {
-            staffUI.setVisible(false);
-            staffUIShown = false;
-        } else {
+        if (staffUI == null) {
             makeStaffUI();
+        } else if (staffUI.isVisible()) {
+            staffUI.setVisible(false);
+        } else {
+            staffUI.setVisible(true);
+            staffUI.refresh();
         }
     });
 
@@ -294,7 +303,7 @@ exports.actors = function(game) {
             //If an actor has already been found, skip the rest.
             if (clickedActor != null) {return;}
 
-            var leftX = actor.getX() - (actorImage.width / 4)- game.offsetX;
+            var leftX = actor.getX() - (actorImage.width / 4) - game.offsetX;
             var rightX = actor.getX() + (actorImage.width / 4) - game.offsetX;
             var topY = actor.getY() - (actorImage.height / 4) - game.offsetY;
             var bottomY = actor.getY() + (actorImage.height / 4) - game.offsetY;
@@ -319,7 +328,7 @@ exports.actors = function(game) {
 
             //If the actor is on the right side of the screen, spawn to the left.
             if (xLocation > game.container.getWidth() / 2) {
-                xLocation = e.x - 145
+                xLocation = e.x - 145;
             }
             if (yLocation < 0) { //Can't draw off the screen.
                 yLocation = 0;

@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * This module shows a menu on the screen and handles user interaction with it
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.menu = function(game) {
 
     'use strict';

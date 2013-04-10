@@ -56,15 +56,13 @@ var Server = function(socket) {
 exports.Register = function(gameServer, config) {
     //create websocket to server to test module events
     var io = require('socket.io-client');
-    var socket = new io.connect('http://localhost:8080');
-
+    var socket = new io.connect(config.masterAddress);
     var server = new Server(socket);
-
     //general message callback
     socket.on('message', function(data) {
         var decoded = Encoder.decode(data);
         if (decoded.res == 'connections' && decoded.verb == 'requestDetails') {
-            server.send('connections', 'sendDetails', {name: config.name, details: {clients: gameServer.clientCount(), maxClients: config.maxClients}});
+            server.send('connections', 'sendDetails', {name: config.name, details: {name: config.name, clients: gameServer.clientCount()}});
         }
     });
 

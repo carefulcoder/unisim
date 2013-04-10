@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Client World module
+ * @param {object} game Shared game data.
+ * @constructor
+ */
 exports.world = function(game) {
 
     'use strict';

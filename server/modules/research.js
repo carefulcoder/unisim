@@ -17,6 +17,12 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A module to responsible for keeping track of research,
+ * including availability and progress.
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.research = function(game) {
 
     var lib = require('../lib/researchlib.js');
@@ -32,12 +38,12 @@ exports.research = function(game) {
     }));
 
     /**
-     * Called when the client connects,
+     * Called when the client has loaded,
      * send them the server research.
      * @param {object} msg The msg from the client.
      * @param {object} client The client.
      */
-    game.server.on('research', 'connect', function(msg, client) {
+    game.server.on('research', 'loaded', function(msg, client) {
         client.send('research', 'set', {tree: game.research.serialize(), current: currentResearch});
     });
 

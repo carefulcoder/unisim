@@ -17,6 +17,10 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A callback manager.
+ * @constructor
+ */
 exports.CallbackManager = function() {
 
     var callbacks = {};

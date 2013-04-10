@@ -17,6 +17,10 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Simple save/load library to store JSON objects to file, and restore them
+ * @constructor
+ */
 exports.SaveLoad = function() {
 
     var fs = require('fs');
@@ -86,6 +90,22 @@ exports.SaveLoad = function() {
             console.log(err);
             fs.mkdir('save');
             return [];
+        }
+    };
+
+    /**
+     * Deletes the specified save in the save directory, if it exists.
+     * @param {string} save The save name to try to delete.
+     */
+    this.delete = function(save) {
+        try {
+            files = fs.readdirSync('save/' + save + '/');
+            files.forEach(function(file) {
+                fs.unlinkSync('save/' + save + '/' + file);
+            });
+            fs.rmdirSync('save/' + save);
+        } catch (err) {
+            console.log(err);
         }
     };
 };

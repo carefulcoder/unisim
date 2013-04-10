@@ -17,39 +17,30 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Client side save/load module
+ * @param {object} game The game.
+ * @constructor
+ */
 exports.saveload = function(game) {
-
     var ui = require('../ui/saveload.js');
     var uiElem = require('../lib/UiElements.js');
     var saveloadui = null;
 
-    var savebutton = new uiElem.Button(40, 20, 'Save');
+    var savebutton = new uiElem.Button(70, 20, 'Save/Load');
+
     savebutton.addListener('mouseup', function(e) {
         if (saveloadui != null && saveloadui.isVisible()) {
             saveloadui.close();
         } else {
-            makeUI('Save');
+            makeUI();
             game.server.send('saveload', 'getsaves', 'New save');
-            saveloadui.saveListen();
         }
     });
-
-    var loadbutton = new uiElem.Button(40, 20, 'Load');
-    loadbutton.addListener('mouseup', function(e) {
-        if (saveloadui != null && saveloadui.isVisible()) {
-            saveloadui.setVisible(false);
-        } else {
-            makeUI('Load');
-            game.server.send('saveload', 'getsaves', null);
-            saveloadui.loadListen();
-        }
-    });
-
-    game.container.addElement('loadButton', loadbutton, 450, 10);
     game.container.addElement('saveButton', savebutton, 400, 10);
 
-    var makeUI = function(title) {
-        saveloadui = new ui.Saveload(game, title);
+    var makeUI = function() {
+        saveloadui = new ui.Saveload(game);
         game.container.addElement('saveload', saveloadui, (game.container.getWidth() / 2) - 125, 200);
         saveloadui.setVisible(true);
     };

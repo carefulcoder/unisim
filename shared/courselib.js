@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Information on the different courses that can be taught by the university.
+ * CoursesManager constructor.
+ * @constructor
+ */
 exports.CoursesRepository = function() {
 
     var courses = []; //List of all the courses.
@@ -28,6 +33,14 @@ exports.CoursesRepository = function() {
      */
     this.getTypes = function() {
         return types;
+    };
+
+    /**
+     * Clear the courses
+     */
+    this.clearCourses = function() {
+        courses = [];
+        types = [];
     };
 
     /**
@@ -158,7 +171,7 @@ exports.CoursesRepository = function() {
         }
 
         //Randomly pick a course
-        var randomCourse = validCourses[Math.floor(Math.random() * validCourses.length)]
+        var randomCourse = validCourses[Math.floor(Math.random() * validCourses.length)];
         if (randomCourse != null) {
             return randomCourse.getName();
         }

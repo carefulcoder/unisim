@@ -122,10 +122,11 @@ gameObjects.container.addElement('sidebar', gameObjects.sideBar, 10, 10);
 gameObjects.menuContainer = new ui.UiElement(canvas.width, canvas.height, 0, null);
 
 /**
- * Input handler.
+ * UI input handler.
  * @type {inp.Input}
  */
-gameObjects.input = new inp.Input(canvas, gameObjects.menuContainer, router);
+gameObjects.input = new inp.Input(canvas, gameObjects.container, router);
+gameObjects.input.setContainer(gameObjects.menuContainer);
 
 /**
  * Module repository.
@@ -210,26 +211,25 @@ var menuClosed = false;
  * @type {Boolean}
  */
 gameObjects.loop = true;
-gameObjects.redraw = true;
+
 //fire a tick event each frame
 //also (usually) fire a paint evt
 anim.onEachFrame(function() {
     //This is a hack, needs to be here for now - Willeh
-    gameObjects.redraw = true;
 
     if (!anim) {
         return;
     } else if (gameObjects.mainMenu) {
-        if(gameObjects.config != null){ //This ensures that the client server connection has been established before the ui is displayed
+        if (gameObjects.config != null) { //This ensures that the client server connection has been established before the ui is displayed
+            router.route({res: 'mainMenu', verb: 'paint', msg: {context: ctx}});
             gameObjects.menuContainer.drawComponent(ctx);
         }
         return;
     }
-    
+
     if (gameObjects.menuClosed) {
         //Change the input handler to work with main ui instead of menu
-        gameObjects.input = new inp.Input(canvas, gameObjects.container, router);
-
+        gameObjects.input.setContainer(gameObjects.container);
         gameObjects.menuClosed = false;
     }
 
@@ -254,14 +254,13 @@ anim.onEachFrame(function() {
         anim.nextGameTick = (new Date).getTime();
     }
 
-    if (gameObjects.redraw == true) {
+    if (true) {
         //Only redraw the image buffer when necessary
         router.route({res: null, verb: 'redraw', msg: {}});
     }
 
     //Draw the game only if there has been an update
     if (loops != 0) {
-
         //route paint event to modules. Context is for backwards compatibility, should use layers.
         router.route({res: null, verb: 'paint', msg: {context: canvases[0], layers: canvases}});
 

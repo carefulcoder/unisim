@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A router that converts net messages into module & function calls.
+ * @param {object} repository A repository of modules to call functions on.
+ * @constructor
+ */
 exports.Router = function(repository) {
 
     'use strict';
@@ -31,7 +36,7 @@ exports.Router = function(repository) {
      * Route a message from some source to the relevant module.
      * @param {object} message The message to send.
      * @param {object=} client A client instance.
-     * @this Jenkins
+     * @this {Router}.
      */
     this.route = function(message, client) {
 

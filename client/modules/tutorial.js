@@ -17,6 +17,11 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * Client Module for teaching the player how to play.
+ * @param {object} game Shared game data.
+ * @constructor
+ */
 exports.tutorial = function(game) {
 
     var stage = 1;
@@ -27,8 +32,6 @@ exports.tutorial = function(game) {
     coursesButton.setVisible(false);
     var staffButton = game.container.getChild('staffButton');
     staffButton.setVisible(false);
-    var loadButton = game.container.getChild('loadButton');
-    loadButton.setVisible(false);
     var saveButton = game.container.getChild('saveButton');
     saveButton.setVisible(false);
 
@@ -38,7 +41,6 @@ exports.tutorial = function(game) {
         buildingUI.setVisible(true);
         coursesButton.setVisible(true);
         staffButton.setVisible(true);
-        loadButton.setVisible(true);
         saveButton.setVisible(true);
     };
 
@@ -109,7 +111,7 @@ exports.tutorial = function(game) {
         }
     });
 
-    //Listen for coursesButton press in stage 6. 
+    //Listen for coursesButton press in stage 6.
     coursesButton.addListener('mouseup', function(e) {
 
         if (stage == 6) {
@@ -142,7 +144,7 @@ exports.tutorial = function(game) {
 
     });
 
-    //Listen for staffButton press in stage 8. 
+    //Listen for staffButton press in stage 8.
     staffButton.addListener('mouseup', function(e) {
 
         if (stage == 8) {
@@ -204,7 +206,6 @@ exports.tutorial = function(game) {
             if (building.getType() == 'Accommodation') {
                 //Tutorial Over
                 stage = 13;
-                loadButton.setVisible(true);
                 saveButton.setVisible(true);
                 tutorial.setVisible(false);
                 tutorial = new uiTut.Tutorial13(game);

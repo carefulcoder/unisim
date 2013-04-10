@@ -58,37 +58,47 @@ exports.Client = function(router, repo, game) {
 
     //create websocket to server to test module events
     var socket = io.connect(window.location);
-    
+
     //Whether the game has loaded on the client
     var loaded = false;
-    
-    //Unrouted message cache
-    var cache = new Array();
+
+    //Unrouted message cache (Sort of a carry over from a previous method, but probably good to keep, just in case)
+    var cache = [];
+
+    var flag = false;
 
     //general message callback
     socket.on('message', function(data) {
+
         var decoded = Encoder.decode(data);
-        
+
         //We must wait for this message to be recieved before loading modules
-        if (decoded.verb == 'sendDetails'){
+        if (decoded.verb == 'sendDetails') {
+
             game.config = decoded.msg;
             game.redraw = true;
             repo.load();
             loaded = true;
-        } else if (!loaded) {
-            //while waiting for the sendDetails message, some other messages may not be routed, so cache them to be routed later
+
+        } else if (!loaded || flag) {
+
+            //while waiting for the sendDetails message, some other messages may not be routed, so cache them
+            //we also cache if the flag has been set to true, as it means something else is being routed.
             cache.push(decoded);
-        } else if (cache.length != 0) {
-            //Route the cached messages
-            for (var i=0; i<cache.length; i++) {
-                router.route(cache[i], new Server(socket));
-            }
-            cache = 0;
+            return;
+
+        } else while (cache.length > 0) {
+            router.route(cache.pop(), new Server(socket)); //Route the cached messages
         }
-        
-        if (loaded) {
-            router.route(decoded, new Server(socket));
-        }
+
+        //route one message at a time.
+        //This should, strictly speaking, never happen as JS isn't multithreaded
+        //but somehow, and we do not know how, Firefox has concurrency problems.
+        //it is possible that socket.io is using web workers and calling these functions asynchronously.
+
+        flag = true;
+        router.route(decoded, new Server(socket));
+        flag = false;
     });
 
     //callback for connections

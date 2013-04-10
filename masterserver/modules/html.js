@@ -17,16 +17,25 @@ You should have received a copy of the GNU General Public License
 along with Unisim.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/**
+ * A module to regenerate the server list html
+ * @param {object} game Shared game objects.
+ * @constructor
+ */
 exports.html = function(game) {
 
     var mustache = require('Mustache');
 
+    /**
+     * Generates html representation of server list.
+     */
     var generate = function() {
-        var data = {servers: new Array()};
+        var data = {servers: new Array(), empty: true};
         for (var key in game.servers) {
             var details = game.servers[key].details;
             details.name = key;
             data.servers.push(details);
+            data.empty = false;
         }
 
         if (game.template != null) {
@@ -34,10 +43,15 @@ exports.html = function(game) {
         }
     };
 
+
+    /**
+     * Writes the generated html to a file in public_html.
+     * @param {String} html String representation of html file.
+     */
     var writeHtml = function(html) {
         //Write to index.html
         var fs = require('fs');
-        var fileName = 'public//index.html';
+        var fileName = 'public_html//index.html';
         fs.writeFile(fileName, html, function(err) {
             if (err) {
                 console.log(err);
