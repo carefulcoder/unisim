@@ -1,9 +1,11 @@
-Unisim
-======
+Unisim Reloaded
+===============
 
 A university simluation game written in Javascript. It is based on a server-client model with the server written in node.js, and the client in Javascript using HTML5 canvas to display the game.
 
 It has been built as a final year computer science project by Jake Blatchford, Mike Garwood, Will Oliver, Jonathan Scherrer and Tom Verran.
+
+This fork exists to fix a couple of bugs and tweak some code prior to a demonstration at University.
 
 Setup
 -----
