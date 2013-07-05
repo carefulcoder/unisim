@@ -105,11 +105,6 @@ exports.Label = function(width, height, text, func) {
 //setup label prototype info.
 exports.Label.prototype = new ui.UiElement;
 
-/**
- * Prototype constructor.
- * @type {function}
- */
-exports.Label.prototype.constructor = exports.Label;
 
 /**
  * A Button constructor
@@ -185,11 +180,6 @@ exports.Button = function(width, height, contents, func) {
 //setup button prototype info.
 exports.Button.prototype = new ui.UiElement;
 
-/**
- * Prototype constructor.
- * @type {function}
- */
-exports.Button.prototype.constructor = exports.Button;
 
 /**
  * A Button constructor
@@ -213,12 +203,6 @@ exports.CloseButton = function(width, height, contents, func) {
 
 //setup close button prototype info.
 exports.CloseButton.prototype = new exports.Button;
-
-/**
- * Prototype constructor.
- * @type {function}
- */
-exports.CloseButton.prototype.constructor = exports.CloseButton;
 
 
 /**
@@ -356,11 +340,6 @@ exports.Menu = function(width, height, title, func) {
 //setup menu prototype info.
 exports.Menu.prototype = new ui.UiElement;
 
-/**
- * Prototype constructor.
- * @type {function}
- */
-exports.Menu.prototype.constructor = exports.Menu;
 
 /**
  * A Textbox constructor
@@ -436,12 +415,6 @@ exports.Text = function(width, height, text, func) {
 
 //setup label prototype info.
 exports.Text.prototype = new ui.UiElement;
-
-/**
- * Prototype constructor.
- * @type {function}
- */
-exports.Text.prototype.constructor = exports.Text;
 
 /**
  * A Label constructor.
@@ -538,11 +511,6 @@ exports.List = function(width, height, func) {
 //setup label prototype info.
 exports.List.prototype = new ui.UiElement;
 
-/**
- * Prototype constructor.
- * @type {function}
- */
-exports.List.prototype.constructor = exports.Label;
 
 /**
  * A ErrorBox constructor.
@@ -585,8 +553,3 @@ exports.ErrorBox = function(text, func) {
 //setup ErrorBox prototype info.
 exports.ErrorBox.prototype = new ui.UiElement;
 
-/**
- * Prototype constructor.
- * @type {function}
- */
-exports.ErrorBox.prototype.constructor = exports.ErrorBox;

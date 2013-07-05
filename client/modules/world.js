@@ -233,14 +233,14 @@ exports.world = function(game) {
         tempCtx.drawImage(tiles.wallEast, 0, 0);
 
         //create a wallWest from ctx
-        tiles.wallWest = new Image();
+        tiles.wallWest = document.createElement('img');;
         tiles.wallWest.src = tempCanvas.toDataURL();
 
         //also flip our top left corner for top right
         tempCtx.drawImage(tiles.cornerTl, 0, 0);
 
         // and as ever, save
-        tiles.cornerTr = new Image();
+        tiles.cornerTr = document.createElement('img');;
         tiles.cornerTr.src = tempCanvas.toDataURL();
 
         //rotate our canvas for north
@@ -249,7 +249,7 @@ exports.world = function(game) {
         tempCtx.drawImage(tiles.wallEast, -15, -15);
 
         //and create the resulting img
-        tiles.wallNorth = new Image();
+        tiles.wallNorth = document.createElement('img');;
         tiles.wallNorth.src = tempCanvas.toDataURL();
 
         //flip again - south
@@ -257,14 +257,14 @@ exports.world = function(game) {
         tempCtx.drawImage(tiles.wallEast, -15, -15);
 
         //and create the resulting img
-        tiles.wallSouth = new Image();
+        tiles.wallSouth = document.createElement('img');;
         tiles.wallSouth.src = tempCanvas.toDataURL();
 
         //also flip our top left corner for top right
         tempCtx.drawImage(tiles.cornerTl, -15, -15);
 
         // and as ever, save
-        tiles.cornerBl = new Image();
+        tiles.cornerBl = document.createElement('img');;
         tiles.cornerBl.src = tempCanvas.toDataURL();
 
         tempCtx.scale(1, -1);
@@ -273,7 +273,7 @@ exports.world = function(game) {
         tempCtx.drawImage(tiles.cornerTl, -15, -15);
 
         // and as ever, save
-        tiles.cornerBr = new Image();
+        tiles.cornerBr = document.createElement('img');;
         tiles.cornerBr.src = tempCanvas.toDataURL();
     });
 

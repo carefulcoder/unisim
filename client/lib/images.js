@@ -35,7 +35,7 @@ exports.ImageLoader = function() {
      * @this {ImageLoader}.
      */
     this.addImage = function(source) {
-        var image = new Image();
+        var image = document.createElement('img');;
         this.sources.push('images/' + source);
         this.images.push(image);
         toload++;
