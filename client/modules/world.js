@@ -419,4 +419,11 @@ exports.world = function(game) {
         game.world.clearWorld();
     };
 
+    /**
+     * Redraw the entire world.
+     */
+    this.resizeEvent = function() {
+        redrawAll = true;
+    }
+
 };

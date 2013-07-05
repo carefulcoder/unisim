@@ -201,6 +201,7 @@ window.onresize = function() {
 
     // redraw everything on screen
     gameObjects.container.setRedraw(true);
+    router.route({res: null, verb: 'resize', msg: {}});
 };
 
 //Has the main menu just closed?
