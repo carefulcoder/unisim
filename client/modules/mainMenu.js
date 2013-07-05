@@ -38,14 +38,18 @@ exports.mainMenu = function(game) {
     //load in the images we need to draw things
     var grass = loader.addImage('grass.png');
 
-    loader.load();
+    var loaded = false;
+
+    loader.load(function() {
+        loaded = true;
+    });
     /**
      * Gives the UI its list of saves from the server.
      * @param {Object} saves List of save names to choose from.
      */
     this.savelistEvent = function(saves) {
-        if (game.mainMenu) {
-            mainMenuUi.setSaves(saves);
+        if (loaded && game.mainMenu) {
+            //mainMenuUi.setSaves(saves);
         }
     };
 
@@ -55,7 +59,8 @@ exports.mainMenu = function(game) {
      * @param {object} g Object containing graphics context.
      */
     this.paintEvent = function(g) {
-        if (game.mainMenu) {
+
+        if (loaded && game.mainMenu) {
             for (var x = 0; x < gameWidth; x += 30) {
                 for (var y = 0; y < gameHeight; y += 30) {
                     g.context.drawImage(grass, x, y);

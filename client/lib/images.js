@@ -26,7 +26,7 @@ exports.ImageLoader = function() {
 
     this.images = [];
     this.sources = [];
-    this.toload = 0;
+    var toload = 0;
 
     /**
      * Add an image
@@ -38,7 +38,7 @@ exports.ImageLoader = function() {
         var image = new Image();
         this.sources.push('images/' + source);
         this.images.push(image);
-        this.toload++;
+        toload++;
         return image;
     };
 
@@ -53,11 +53,10 @@ exports.ImageLoader = function() {
 
             //grab image
             var img = this.images[i];
-            var scope = this;
 
             //tell us when its loaded
             img.onload = function() {
-                if (--scope.toload == 0 && typeof callback == 'function') {
+                if (--toload == 0 && typeof callback == 'function') {
                     callback(); //fire callback if all images loaded
                 }
             };

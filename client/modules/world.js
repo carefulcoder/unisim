@@ -214,7 +214,7 @@ exports.world = function(game) {
         wallEast: loader.addImage('wall_straight.png'),
         cornerTl: loader.addImage('corner.png'),
         barStool: loader.addImage('barStool.png'),
-        restaurantChair: loader.addImage('restaurantChair.png')
+        restaurantChair: loader.addImage('restaurantchair.png')
     };
 
     loader.load(function() {
