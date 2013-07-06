@@ -316,7 +316,16 @@ exports.Menu = function(width, height, title, func) {
      */
     this.draw = function(ctx) {
         ctx.fillStyle = '#ccc';
+        ctx.shadowColor = '#444';
+        ctx.shadowOffsetX = 2;
+        ctx.shadowOffsetY = 2;
+        ctx.shadowBlur = 10;
+
         ctx.fillRect(0, 0, this.getWidth(), this.getHeight());
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+        ctx.shadowBlur = 0;
+
 
         //Draw the menu bar
         if (titleHeight > 0) {
